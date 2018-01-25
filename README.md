@@ -1,8 +1,10 @@
-# Puppeteer 
+# Fork Status
 
-<!-- [START badges] -->
-[![Linux Build Status](https://img.shields.io/travis/GoogleChrome/puppeteer/master.svg)](https://travis-ci.org/GoogleChrome/puppeteer) [![Windows Build Status](https://img.shields.io/appveyor/ci/aslushnikov/puppeteer/master.svg?logo=appveyor)](https://ci.appveyor.com/project/aslushnikov/puppeteer/branch/master) [![NPM puppeteer package](https://img.shields.io/npm/v/puppeteer.svg)](https://npmjs.org/package/puppeteer)
-<!-- [END badges] -->
+The puppeteer team isn't planning on supporting browser contexts ([GoogleChrome/puppeteer/issues/#85](https://github.com/GoogleChrome/puppeteer/issues/85)) until they are supported by Chrome in headful mode
+
+In the meantime, this fork adds a [browser.newIsolatedPage()](docs/api.md#browsernewisolatedpage) method to create a context and use it in a new page (disposing of the context when the page is closed).
+
+# [Puppeteer](https://github.com/GoogleChrome/puppeteer)
 
 <img src="https://user-images.githubusercontent.com/10379601/29446482-04f7036a-841f-11e7-9872-91d1fc2ea683.png" height="200" align="right">
 
