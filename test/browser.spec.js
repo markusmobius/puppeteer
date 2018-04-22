@@ -37,26 +37,46 @@ module.exports.addTests = function({testRunner, expect, puppeteer, headless}) {
 
   describe('Browser.newIsolatedPage', function() {
     beforeEach(async state => {
-      state.incognitoPage = await state.browser.newIsolatedPage();
+      state.incognitoPage1 = await state.browser.newIsolatedPage();
+      state.incognitoPage2 = await state.browser.newIsolatedPage();
     });
 
     afterEach(async state => {
-      await state.incognitoPage.close();
-      state.incognitoPage = null;
+      await state.incognitoPage1.close();
+      state.incognitoPage1 = null;
+      await state.incognitoPage2.close();
+      state.incognitoPage2 = null;
     });
 
-    it('should use a separate browser context', async function({page, incognitoPage, server}) {
+    it('should use a separate browser context', async function({page, incognitoPage1, incognitoPage2, server}) {
       await page.goto(server.PREFIX + '/grid.html');
-      await incognitoPage.goto(server.PREFIX + '/grid.html');
+      await incognitoPage1.goto(server.PREFIX + '/grid.html');
+      await incognitoPage2.goto(server.PREFIX + '/grid.html');
       expect(await page.cookies()).toEqual([]);
-      expect(await incognitoPage.cookies()).toEqual([]);
-      await incognitoPage.setCookie({
+      expect(await incognitoPage1.cookies()).toEqual([]);
+      expect(await incognitoPage2.cookies()).toEqual([]);
+      await incognitoPage1.setCookie({
         name: 'password',
         value: '123456'
       });
-      expect(await incognitoPage.cookies()).toEqual([{
+      await incognitoPage2.setCookie({
+        name: 'password',
+        value: '654321'
+      });
+      expect(await incognitoPage1.cookies()).toEqual([{
         name: 'password',
         value: '123456',
+        domain: 'localhost',
+        path: '/',
+        expires: -1,
+        size: 14,
+        httpOnly: false,
+        secure: false,
+        session: true
+      }]);
+      expect(await incognitoPage2.cookies()).toEqual([{
+        name: 'password',
+        value: '654321',
         domain: 'localhost',
         path: '/',
         expires: -1,
